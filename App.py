@@ -50,6 +50,6 @@ if st.button("Predict"):
     st.write(f"You have given a {predicted_class} review! Thanks")
     
     if predicted_class == 'Positive':
-        st.write(f"Probability of review being {predicted_class} is {predicted_probabilities[1]*100}")
+        st.write(f"Review being {predicted_class} is {predicted_probabilities[1]*100} %")
     else:
         st.write(f"Review being {predicted_class} is {predicted_probabilities[0]*100} %")
