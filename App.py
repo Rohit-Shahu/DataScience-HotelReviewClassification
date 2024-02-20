@@ -1,8 +1,5 @@
 import streamlit as st
 import numpy as np
-import spacy
-import string
-from nltk.corpus import stopwords
 from tensorflow.keras.models import load_model
 from tensorflow.keras.preprocessing.sequence import pad_sequences
 from tensorflow.keras.preprocessing.text import Tokenizer
@@ -20,36 +17,13 @@ with open('label_encoder.pkl', 'rb') as handle:
 # Load the model and tokenizer
 model = load_model("final_lstm_model.h5")
 
-def word_cleaner(text):
-    
-    text = text.strip()
-    
-    text = text.translate(str.maketrans('', '', string.punctuation))
-    
-    text = re.sub(r'[^\x00-\x7F]+', '', text)
-
-    doc = nlp(text)
-
-    lemmatized_words = [token.lemma_ for token in doc]
-    
-    additional_stopwords = set(['hotel', 'resort', 'day', 'use', 'need', 'think', 'night', 'say', 'look', 'beach', 'stay', 'time', 'people', 'place', 'area', 'room', 'come', 'staff', 'tell'])
-
-    stop_words = set(stopwords.words('english')).union(set(spacy.lang.en.stop_words.STOP_WORDS)).union(additional_stopwords) - {'not'}
-    
-    lemmatized_words = [word for word in lemmatized_words if word.lower() not in stop_words]
-
-    cleaned_text = ' '.join(lemmatized_words)
-
-    return cleaned_text
-
-
 # Define max sequence length
 max_sequence_length = 100
 
 # Function to preprocess text and make predictions
 def predict_sentiment(text):
     # Tokenize and pad the text data
-    sequence = tokenizer.texts_to_sequences([word_cleaner(text)])
+    sequence = tokenizer.texts_to_sequences([text])
     sequence_padded = pad_sequences(sequence, maxlen=max_sequence_length)
     
     # Make predictions
