@@ -6,8 +6,6 @@ from tensorflow.keras.preprocessing.text import Tokenizer
 from sklearn.preprocessing import LabelEncoder
 import pickle
 
-nlp = spacy.load('en_core_web_lg')
-
 with open('tokenizer.pkl', 'rb') as handle:
     tokenizer = pickle.load(handle)
     
